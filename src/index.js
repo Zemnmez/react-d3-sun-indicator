@@ -7,7 +7,24 @@ import styles from './styles.css';
 const secondsInADay = 24 * 60 * 60;
 export default class SunIndicator extends React.Component {
   join({main, width, height}) {
-    let {time = new Date(), bgc = "white", fgc = "black"} = this.props;
+    let {
+      time = new Date(),
+      bgc = "white",
+      fgc = "black",
+      sunScale = 0.1
+    } = this.props;
+
+    const rx = width / 2;
+    const ry = height;
+    const sunr = Math.max(rx, ry) * sunScale;
+    const margin = {
+      top: sunr + 1,
+      right: sunr + 1,
+      bottom: sunr + 1,
+      left: sunr + 1
+    };
+
+
     let svg = d3.select(main);
     svg.attr("viewBox", `0 0 ${width} ${height}`);
 
@@ -15,53 +32,32 @@ export default class SunIndicator extends React.Component {
 
     let ratio = seconds / secondsInADay;
 
-    let phases = [
-      {name: "before", value: 100 * ratio, class: styles.travelled},
-      {name: "after", value: 100 * (1 - ratio), class: styles.remaining}
-    ];
+    let g = svg.select("."+styles.centre);
+    g.attr("transform", `translate(${width/2},${height})`);
 
-    const arcs = d3.pie().sort(null).value(d => d.value)
-      .startAngle(Math.PI* (-1/2) ).endAngle(Math.PI / 2)(phases);
 
-    const r = Math.min(width, height)/2-1;
-    const arc = d3.arc().innerRadius(0).outerRadius(r);
+    const fullArc =
+    let full = g.selectAll("."+styles.full).data([1]);
 
-    const g = d3.select("."+styles.centre);
+    full.exit().remove();
 
-    g.attr("transform", `translate(${width /2},${height/2})`)
+    full = full.enter()
+      .append("path")
+      .attr("clip-path", "url(#"+styles.remainingClip+")")
+      .attr("class", styles.full)
+      .merge(full)
+      .attr(
+        "d",
+        `M${-rx + margin.left} ${0 - margin.bottom}A${rx - margin.left} ${ry - margin.top * 2} 0 0 1 ${rx - margin.right} ${0-margin.bottom}`
+      );
 
-    // take *just* the arc, rather than the segment ... just delete everything
-    // past L
-    const justArc = (...etc) => arc(...etc).replace(/L.*$/g, "");
-
-    let segments = g.selectAll("path").data(arcs);
-
-    segments.exit().remove();
-
-    segments = segments.enter().append("path")
-        .merge(segments)
-        .attr("fill", d => "none")
-        .attr("stroke", d => fgc)
-        .attr("d", justArc)
-        .attr("class", d => d.data.class)
-        .each((d, i, n) => {
-          let titles = d3.select(n[i]).selectAll("title");
-
-          titles.exit().remove();
-
-          titles.enter()
-            .append("title")
-            .merge(titles)
-            .text(d => d.data.name);
-        });
-
+    const sunPt = full.node().getPointAtLength(
+      full.node().getTotalLength() * ratio
+    );
 
 
     // draw a sunny circle
-    const passedPath = segments.filter("." + styles.travelled).attr("d");
-    const [finalX, finalY] = /[\d-.e]+,[\d-.e]+$/.exec(passedPath)[0].split(",");
-
-    let circles = g.selectAll("circle").data([[finalX, finalY]]);
+    let circles = g.selectAll("circle").data([sunPt]);
 
     circles.exit().remove();
 
@@ -71,9 +67,9 @@ export default class SunIndicator extends React.Component {
       .attr("fill", "white")
       .attr("stroke", "black")
       .attr("class", styles.sun)
-      .attr("cx", ([x, y]) => x)
-      .attr("cy", ([x, y]) => y)
-      .attr("r", r / 20);
+      .attr("cx", ({ x, y }) => x)
+      .attr("cy", ({ x, y }) => y)
+      .attr("r", Math.min(rx, ry) * sunScale);
 
 
   }

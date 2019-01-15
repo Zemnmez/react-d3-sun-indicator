@@ -11,8 +11,8 @@ export default class App extends Component {
 
   componentDidMount() {
     this.timer = setInterval(() => this.setState({
-      time: new Date(+this.state.time + 60 * 60 * 60 * .5)
-    }), 10)
+      time: new Date()
+    }), 1000)
   }
 
   componentWillUnmount() {

@@ -1,15 +1,20 @@
-.remaining {
-  stroke-dasharray: 3 5;
-}
-
 .indicator {
   stroke-width: 1;
+  fill: none;
+  stroke: black;
 }
 
 .sun {
   stroke-width: 1;
 }
 
-.travelled { }
+.full {
+  stroke-dasharray: 3 5;
+}
+
 
 .centre {}
+
+#remainingClip { }
+
+#travelledClip { }
