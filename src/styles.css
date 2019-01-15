@@ -8,12 +8,9 @@
   stroke-width: 1;
 }
 
-.full {
-  stroke-dasharray: 3 5;
-}
+.full { }
 
-
-.centre {}
+.centre { }
 
 #remainingClip { }
 

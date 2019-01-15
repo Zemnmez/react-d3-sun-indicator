@@ -36,7 +36,6 @@ export default class SunIndicator extends React.Component {
     g.attr("transform", `translate(${width/2},${height})`);
 
 
-    const fullArc =
     let full = g.selectAll("."+styles.full).data([1]);
 
     full.exit().remove();
