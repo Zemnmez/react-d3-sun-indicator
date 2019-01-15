@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import SunIndicator from 'react-d3-sun-indicator'
+import SunIndicator from 'react-d3-sun-indicator';
 
 export default class App extends Component {
   constructor(props) {

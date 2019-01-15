@@ -4,10 +4,12 @@
 
 [![NPM](https://img.shields.io/npm/v/react-d3-sun-indicator.svg)](https://www.npmjs.com/package/react-d3-sun-indicator) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+This cute indicator demonstrates some techniques with React and d3. It automatically sizes to its container so it can be rendered and re-used anywhere.
+
 ## Install
 
 ```bash
-npm install --save react-d3-sun-indicator
+yarn add react-d3-sun-indicator
 ```
 
 ## Usage
@@ -15,12 +17,32 @@ npm install --save react-d3-sun-indicator
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'react-d3-sun-indicator'
+import SunIndicator from 'react-d3-sun-indicator';
 
-class Example extends Component {
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {time: new Date()}
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.setState({
+      time: new Date()
+    }), 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer)
+  }
+
   render () {
     return (
-      <MyComponent />
+      <div>
+        <SunIndicator
+          time={this.state.time}
+          style={{width: "50vw", height: "50vh"}} />
+      </div>
     )
   }
 }
