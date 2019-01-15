@@ -6,6 +6,8 @@
 
 This cute indicator demonstrates some techniques with React and d3. It automatically sizes to its container so it can be rendered and re-used anywhere.
 
+Take a look [here](https://zemnmez.github.io/react-d3-sun-indicator).
+
 ## Install
 
 ```bash
