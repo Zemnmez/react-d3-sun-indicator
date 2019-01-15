@@ -1,8 +1,15 @@
-/* add css styles here (optional) */
-
-.test {
-  display: inline-block;
-  margin: 2em auto;
-  border: 2px solid #000;
-  font-size: 2em;
+.remaining {
+  stroke-dasharray: 3 5;
 }
+
+.indicator {
+  stroke-width: 1;
+}
+
+.sun {
+  stroke-width: 1;
+}
+
+.travelled { }
+
+.centre {}

@@ -57,5 +57,9 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "d3": "^5.7.0",
+    "reactive-d3": "^1.0.1"
+  }
 }
